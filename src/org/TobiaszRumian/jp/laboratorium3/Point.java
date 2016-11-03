@@ -1,11 +1,15 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 import java.awt.*;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Point extends Figure {
+
+class Point extends Figure {
 
     float x, y;
 

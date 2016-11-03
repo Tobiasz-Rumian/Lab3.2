@@ -1,43 +1,57 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
+/*
+ *  Program GraphicEditor
+ *  Pozwala rysować przy użyciu dostępnych figur.
+ *  Pozwala także na zmianę ich rozmiaru, przemieszczanie za pomocą myszy jak i klawiatury.
+ *  Pozwala zmienić rozmiar figury za pomocą rolki myszy.
+ *  Pozwala zapisać utworzony obraz jak i go wczytać.
+ *  implementuje 6 figur: punkt, koło, trójkąt, klepsydrę, gwiazę oraz pięciokąt.
+ *  Pozwala zmienić kolor figury w czasie rzeczywistym.
+ *  Pozwala stworzyć dozwolone figury w podanych przez urzytkownika rozmiarach.
+ *
+ *  @author Tobiasz Rumian
+ *  @version 1.0
+ *   Data: 01 Listopad 2016 r.
+ *   Indeks: 226131
+ *   Grupa: śr 13:15 TN
+ */
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
 
-import static java.awt.Color.PINK;
-import static java.awt.Color.blue;
-
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
 public class GraphicEditor extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 3727471814914970170L;
 
     private final String FILENAME = "PICTURE.BIN";
 
-    private final String DESCRIPTION = "OPIS PROGRAMU\n\n" + "Aktywna klawisze:\n" + "   strzalki ==> przesuwanie figur\n" + "   SHIFT + strzalki ==> szybkie przesuwanie figur\n" + "   +,-  ==> powiekszanie, pomniejszanie\n" + "   DEL  ==> kasowanie figur\n" + "   p  ==> dodanie nowego punktu\n" + "   c  ==> dodanie nowego kola\n" + "   t  ==> dodanie nowego trojkata\n" + "   g  ==> dodanie nowej gwiazdy\n" + "   k  ==> dodanie nowej klepsydry\n" + "   f  ==> dodanie nowego pięciokąta\n" + "\nOperacje myszka:\n" + "   klik ==> zaznaczanie figur\n" + "   ALT + klik ==> zmiana zaznaczenia figur\n" + "   przeciaganie ==> przesuwanie figur";
+    private final String DESCRIPTION =
+                            "OPIS PROGRAMU\n\n" +
+                            "Aktywna klawisze:\n" +
+                            "   strzalki ==> przesuwanie figur\n" +
+                            "   SHIFT + strzalki ==> szybkie przesuwanie figur\n" +
+                            "   +,-  ==> powiekszanie, pomniejszanie\n" +
+                            "   DEL  ==> kasowanie figur\n" +
+                            "   p  ==> dodanie nowego punktu\n" +
+                            "   c  ==> dodanie nowego kola\n" +
+                            "   t  ==> dodanie nowego trojkata\n" +
+                            "   g  ==> dodanie nowej gwiazdy\n" +
+                            "   k  ==> dodanie nowej klepsydry\n" +
+                            "   f  ==> dodanie nowego pięciokąta\n" +
+                            "\nOperacje myszka:\n" + "   klik ==> zaznaczanie figur\n" +
+                            "   ALT + klik ==> zmiana zaznaczenia figur\n" +
+                            "   przeciaganie ==> przesuwanie figur\n"+
+                            "   Kółko myszki ==> Zmiana rozmiaru figury";
 
-    private final String ABOUT = "Autor:\nTobiasz Rumian\nIndeks: 226131";
+    private final Picture picture;
 
-    protected Picture picture;
-
-    private JMenu[] menu = {
-            new JMenu("Figury"),
-            new JMenu("Edytuj"),
-            new JMenu("Pomoc")};
-    private JMenu[] menu1 = {
-            new JMenu("Punkt"),
-            new JMenu("Koło"),
-            new JMenu("Trójkąt"),
-            new JMenu("Gwiazda"),
-            new JMenu("Klepsydra"),
-            new JMenu("Pięciokąt")};
-    private JMenuItem[] items = {
-            new JMenuItem("Losowy Punkt"),//0
+    private JMenu[] menu = {new JMenu("Figury"), new JMenu("Edytuj"), new JMenu("Pomoc")};
+    private JMenu[] menu1 = {new JMenu("Punkt"), new JMenu("Koło"), new JMenu("Trójkąt"), new JMenu("Gwiazda"), new JMenu("Klepsydra"), new JMenu("Pięciokąt")};
+    private JMenuItem[] items = {new JMenuItem("Losowy Punkt"),//0
             new JMenuItem("Zadany Punkt"),//1
             new JMenuItem("Losowe Koło"),//2
             new JMenuItem("Zadane Koło"),//3
@@ -66,7 +80,6 @@ public class GraphicEditor extends JFrame implements ActionListener {
     private JButton buttonStar = new JButton("Gwiazda");
     private JButton buttonHourglass = new JButton("Klepsydra");
     private JButton buttonPentagon = new JButton("Pięciokąt");
-    private JButton buttonChangeColor = new JButton("Zmień kolor");
 
     private GraphicEditor() {
         super("Edytor graficzny");
@@ -118,6 +131,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
         picture.setFocusable(true);
         picture.addMouseListener(picture);
         picture.addMouseMotionListener(picture);
+        picture.addMouseWheelListener(picture);
         picture.setLayout(new FlowLayout());
 
         buttonPoint.addActionListener(this);
@@ -126,6 +140,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
         buttonStar.addActionListener(this);
         buttonHourglass.addActionListener(this);
         buttonPentagon.addActionListener(this);
+        JButton buttonChangeColor = new JButton("Zmień kolor");
         buttonChangeColor.addActionListener(new ImmediateListener());
 
         picture.add(buttonPoint);
@@ -150,39 +165,51 @@ public class GraphicEditor extends JFrame implements ActionListener {
         else if (source == buttonPentagon) picture.addFigure(new Pentagon());
         else if (source == buttonHourglass) picture.addFigure(new Hourglass());
         else if (source == items[0]) picture.addFigure(new Point());
-        else if (source == items[1]) picture.addFigure(new Point());
+        else if (source == items[1]) setFigure("Point");
         else if (source == items[2]) picture.addFigure(new Circle());
-        else if (source == items[3]) picture.addFigure(new Circle());
+        else if (source == items[3]) setFigure("Circle");
         else if (source == items[4]) picture.addFigure(new Triangle());
-        else if (source == items[5]) picture.addFigure(new Triangle());
+        else if (source == items[5]) setFigure("Triangle");
         else if (source == items[6]) picture.addFigure(new Star());
-        else if (source == items[7]) picture.addFigure(new Star());
+        else if (source == items[7]) setFigure("Star");
         else if (source == items[8]) picture.addFigure(new Hourglass());
-        else if (source == items[9]) picture.addFigure(new Hourglass());
+        else if (source == items[9]) setFigure("Hourglass");
         else if (source == items[10]) picture.addFigure(new Pentagon());
-        else if (source == items[11]) picture.addFigure(new Pentagon());
-        else if (source == items[12]) JOptionPane.showMessageDialog(null, picture.toString());
+        else if (source == items[11]) setFigure("Pentagon");
+        else if (source == items[12]) {
+            ShowAllFigures showAllFigures = new ShowAllFigures(this);
+            showAllFigures.setVisible(true);
+        }
         else if (source == items[13]) picture.moveAllFigures(0, -10);
         else if (source == items[14]) picture.moveAllFigures(0, 10);
         else if (source == items[15]) picture.scaleAllFigures(1.1f);
         else if (source == items[16]) picture.scaleAllFigures(0.9f);
-        else if (source == items[17]) JOptionPane.showMessageDialog(null, ABOUT);
+        else if (source == items[17]) {
+            About about;
+            try{
+                about = new About(this);
+                about.setVisible(true);
+            }catch(Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
         else if (source == items[18]) JOptionPane.showMessageDialog(null, DESCRIPTION);
         else if (source == items[19]) {
-            try{
+            try {
                 picture.savePictureToFile(FILENAME);
                 System.out.println("Plik zostal zapisany");
-            }catch (Exception e){
-                System.err.println(e.getMessage()) ;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
             repaint();
         }
-        else if (source == items[20]){
-            try{
+        else if (source == items[20]) {
+            try {
                 picture.loadPictureFromFile(FILENAME);
                 System.out.println("Plik zostal odczytany");
-            }catch (Exception e){
-
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
             repaint();
         }
@@ -191,9 +218,37 @@ public class GraphicEditor extends JFrame implements ActionListener {
         repaint();
     }
 
+    private void setFigure(String name) {
+        float x, y, s;
+        Point p1, p2, p3;
+        Figure figure = null;
+        if (!Objects.equals(name, "Triangle")) {
+            SetDialog dialog = new SetDialog(this);
+            dialog.setVisible(true);
+            x = dialog.getX1();
+            y = dialog.getY1();
+            s = dialog.getS1();
+            if (Objects.equals(name, "Point"))          figure = new Point(x, y);
+            else if (Objects.equals(name, "Circle"))    figure = new Circle(x, y, s);
+            else if (Objects.equals(name, "Star"))      figure = new Star(x, y, s);
+            else if (Objects.equals(name, "Hourglass")) figure = new Hourglass(x, y, s);
+            else if (Objects.equals(name, "Pentagon"))  figure = new Pentagon(x, y, s);
+        } else if (Objects.equals(name, "Triangle")) {
+            SetTriangleDialog dialog = new SetTriangleDialog(this);
+            dialog.setVisible(true);
+            p1 = dialog.getPoint(1);
+            p2 = dialog.getPoint(2);
+            p3 = dialog.getPoint(3);
+            figure = new Triangle(p1, p2, p3);
+        }
+
+        picture.addFigure(figure);
+    }
+
     private class ImmediateListener implements ActionListener {
         private JDialog dialog;
         private JColorChooser chooser;
+
         ImmediateListener() {
             chooser = new JColorChooser();
             chooser.getSelectionModel().addChangeListener(event -> {
@@ -204,13 +259,113 @@ public class GraphicEditor extends JFrame implements ActionListener {
             dialog.add(chooser);
             dialog.pack();
         }
+
         public void actionPerformed(ActionEvent event) {
             chooser.setColor(getBackground());
             dialog.setVisible(true);
         }
     }
 
+    private class SetDialog extends JDialog {
+        JTextField x1, y1, s1;
 
+        SetDialog(JFrame owner) {
+            super(owner, "Tworzenie figury", true);
+            add(new JLabel("Wpisz rozmiary figury"), BorderLayout.NORTH);
+            x1 = new JTextField("Wprowadź x");
+            y1 = new JTextField("Wprowadź y");
+            s1 = new JTextField("Wprowadź rozmiar");
+            JPanel panel = new JPanel();
+            JButton ok = new JButton("ok");
+            ok.addActionListener(e -> setVisible(false));
+            panel.add(x1);
+            panel.add(y1);
+            panel.add(s1);
+            add(panel, BorderLayout.CENTER);
+            add(ok, BorderLayout.SOUTH);
+            setSize(250, 250);
+        }
+
+        float getX1() {
+            return Float.parseFloat(x1.getText());
+        }
+
+        float getY1() {
+            return Float.parseFloat(y1.getText());
+        }
+
+        float getS1() {
+            return Float.parseFloat(s1.getText());
+        }
+
+    }
+
+    private class SetTriangleDialog extends JDialog {
+        JTextField[] textFields = new JTextField[6];
+        SetTriangleDialog(JFrame owner) {
+            super(owner, "Tworzenie figury", true);
+            add(new JLabel("Wpisz rozmiary figury"), BorderLayout.NORTH);
+            textFields[0] = new JTextField("Wprowadź x pierwszego punktu");
+            textFields[1] = new JTextField("Wprowadź y pierwszego punktu");
+            textFields[2] = new JTextField("Wprowadź x drugiego punktu");
+            textFields[3] = new JTextField("Wprowadź y drugiego punktu");
+            textFields[4] = new JTextField("Wprowadź x trzeciego punktu");
+            textFields[5] = new JTextField("Wprowadź y trzeciego punktu");
+            JPanel panel = new JPanel();
+            JButton ok = new JButton("ok");
+            ok.addActionListener(e -> setVisible(false));
+            for (JTextField j : textFields) {
+                panel.add(j);
+            }
+            add(panel, BorderLayout.CENTER);
+            add(ok, BorderLayout.SOUTH);
+            setSize(250, 250);
+        }
+
+        Point getPoint(int x) {
+            if (x==1)           return new Point(Float.parseFloat(textFields[0].getText()), Float.parseFloat(textFields[1].getText()));
+            else if (x == 2)    return new Point(Float.parseFloat(textFields[2].getText()), Float.parseFloat(textFields[3].getText()));
+            else if (x == 3)    return new Point(Float.parseFloat(textFields[4].getText()), Float.parseFloat(textFields[5].getText()));
+            return null;
+        }
+
+    }
+
+    private class About extends JDialog {
+        About(JFrame owner) throws MalformedURLException{
+            super(owner, "O Autorze", true);
+            URL url=null;
+        try{
+            url = new URL("https://media.giphy.com/media/l0HlIKdi4DIEDk92g/giphy.gif");
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+            Icon icon = new ImageIcon(url);
+            JLabel label = new JLabel(icon);
+            add(new JLabel("Autor:\t Tobiasz Rumian\t Indeks: 226131"), BorderLayout.NORTH);
+            add(label,BorderLayout.CENTER);
+            JButton ok = new JButton("ok");
+            ok.addActionListener(e -> setVisible(false));
+            add(ok, BorderLayout.SOUTH);
+            setSize(400, 400);
+        }
+    }
+
+    private class ShowAllFigures extends JDialog {
+        ShowAllFigures(JFrame owner) {
+            super(owner, "Wszystkie figury", true);
+            add(new JLabel("Rysunek{"), BorderLayout.NORTH);
+            JTextArea textArea = new JTextArea(8,40);
+            textArea.append(picture.toString());
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            textArea.setEditable(false);
+            JButton ok = new JButton("ok");
+            ok.addActionListener(e -> setVisible(false));
+            add(scrollPane, BorderLayout.CENTER);
+            add(ok, BorderLayout.SOUTH);
+            setSize(250, 500);
+        }
+    }
     public static void main(String[] args) {
         new GraphicEditor();
     }

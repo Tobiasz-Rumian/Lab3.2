@@ -1,21 +1,20 @@
 package org.TobiaszRumian.jp.laboratorium3;
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 
 import java.awt.*;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Pentagon extends Figure {
+class Pentagon extends Figure {
     private Point[] points = new Point[6];
     private Triangle[] triangles = new Triangle[5];
 
     Pentagon() {
-        points[0] = new Point(13f, 12.24f);
-        points[1] = new Point(21.90f, 12.24f);
-        points[2] = new Point(24.84f, 20.38f);
-        points[3] = new Point(17.5f, 25.55f);
-        points[4] = new Point(10.06f, 20.42f);
-        points[5] = new Point(this.getX(), this.getY());
+
         createPentagon();
         this.scale(Math.abs(random.nextFloat() * 10));
         this.move(Math.abs(random.nextFloat() * 400), Math.abs(random.nextFloat() * 400));
@@ -28,10 +27,25 @@ public class Pentagon extends Figure {
         points[3] = p4;
         points[4] = p5;
         points[5] = new Point(this.getX(), this.getY());
+        triangles[0] = new Triangle(points[0], points[5], points[1]);
+        triangles[1] = new Triangle(points[1], points[5], points[2]);
+        triangles[2] = new Triangle(points[2], points[5], points[3]);
+        triangles[3] = new Triangle(points[3], points[5], points[4]);
+        triangles[4] = new Triangle(points[4], points[5], points[0]);
+    }
+    Pentagon(float dx,float dy,float s){
         createPentagon();
+        this.scale(s);
+        this.move(dx,dy);
     }
 
     private void createPentagon() {
+        points[0] = new Point(13f, 12.24f);
+        points[1] = new Point(21.90f, 12.24f);
+        points[2] = new Point(24.84f, 20.38f);
+        points[3] = new Point(17.5f, 25.55f);
+        points[4] = new Point(10.06f, 20.42f);
+        points[5] = new Point(this.getX(), this.getY());
         triangles[0] = new Triangle(points[0], points[5], points[1]);
         triangles[1] = new Triangle(points[1], points[5], points[2]);
         triangles[2] = new Triangle(points[2], points[5], points[3]);

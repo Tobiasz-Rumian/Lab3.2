@@ -1,36 +1,36 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 import java.awt.*;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Hourglass extends Figure {
+
+class Hourglass extends Figure {
     private Point[] points = new Point[5];
     private Triangle[] triangles = new Triangle[2];
 
     Hourglass() {
-        points[0] = new Point(0f, 0f);
-        points[1] = new Point(6f, 0f);
-        points[2] = new Point(3f, 5f);
-        points[3] = new Point(0f, 10f);
-        points[4] = new Point(6f, 10f);
         createHourglass();
         this.scale(Math.abs(random.nextFloat() * 10));
         this.move(Math.abs(random.nextFloat() * 400), Math.abs(random.nextFloat() * 400));
     }
 
-    Hourglass(Point p1, Point p2, Point p3, Point p4, Point p5) {
-
-        points[0] = p1;
-        points[1] = p2;
-        points[2] = p3;
-        points[3] = p4;
-        points[4] = p5;
+    Hourglass(float dx, float dy, float s) {
         createHourglass();
+        this.scale(s);
+        this.move(dx,dy);
     }
 
     private void createHourglass() {
+        points[0] = new Point(0f, 0f);
+        points[1] = new Point(6f, 0f);
+        points[2] = new Point(3f, 5f);
+        points[3] = new Point(0f, 10f);
+        points[4] = new Point(6f, 10f);
         triangles[0] = new Triangle(points[0], points[2], points[1]);
         triangles[1] = new Triangle(points[3], points[2], points[4]);
     }

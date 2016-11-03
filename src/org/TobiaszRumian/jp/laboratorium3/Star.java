@@ -1,44 +1,30 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 import java.awt.*;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Star extends Figure {
+
+class Star extends Figure {
     private Point[] points = new Point[10];
     private Triangle[] triangles = new Triangle[5];
     private Pentagon pentagon;
 
     Star() {
-        points[0] = new Point(17.5f, 0f);
-        points[1] = new Point(21.9f, 12.24f);
-        points[2] = new Point(35.28f, 12.24f);
-        points[3] = new Point(24.84f, 20.38f);
-        points[4] = new Point(28.53f, 32.98f);
-        points[5] = new Point(17.5f, 25.55f);
-        points[6] = new Point(6.4f, 32.98f);
-        points[7] = new Point(10.06f, 20.42f);
-        points[8] = new Point(0f, 12.2f);
-        points[9] = new Point(13f, 12.24f);
         createStar();
         this.scale(Math.abs(random.nextFloat() * 10));
         this.move(Math.abs(random.nextFloat() * 400), Math.abs(random.nextFloat() * 400));
     }
 
 
-    Star(Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7, Point p8, Point p9, Point p10) {
-        points[0] = p1;
-        points[1] = p2;
-        points[2] = p3;
-        points[3] = p4;
-        points[4] = p5;
-        points[5] = p6;
-        points[6] = p7;
-        points[7] = p8;
-        points[8] = p9;
-        points[9] = p10;
+    Star(float dx, float dy, float s) {
         createStar();
+        this.scale(s);
+        this.move(dx,dy);
     }
 
     @Override
@@ -113,6 +99,16 @@ public class Star extends Figure {
     }
 
     private void createStar() {
+        points[0] = new Point(17.5f, 0f);
+        points[1] = new Point(21.9f, 12.24f);
+        points[2] = new Point(35.28f, 12.24f);
+        points[3] = new Point(24.84f, 20.38f);
+        points[4] = new Point(28.53f, 32.98f);
+        points[5] = new Point(17.5f, 25.55f);
+        points[6] = new Point(6.4f, 32.98f);
+        points[7] = new Point(10.06f, 20.42f);
+        points[8] = new Point(0f, 12.2f);
+        points[9] = new Point(13f, 12.24f);
         triangles[0] = new Triangle(points[9], points[0], points[1]);
         triangles[1] = new Triangle(points[1], points[2], points[3]);
         triangles[2] = new Triangle(points[3], points[4], points[5]);

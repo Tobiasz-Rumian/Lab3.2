@@ -1,11 +1,15 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 import java.awt.*;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Triangle extends Figure {
+
+class Triangle extends Figure {
     private Point point1, point2, point3;
 
     Triangle() {
@@ -19,6 +23,7 @@ public class Triangle extends Figure {
         point2 = p2;
         point3 = p3;
     }
+
 
     @Override
     public boolean isInside(float px, float py) {

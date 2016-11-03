@@ -1,4 +1,11 @@
 package org.TobiaszRumian.jp.laboratorium3;
+/*
+ * @version 1.0
+ * @author Tobiasz Rumian
+ * Data: 01 Listopad 2016 r.
+ * Indeks: 226131
+ * Grupa: śr 13:15 TN
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,10 +14,8 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.Vector;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-public class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionListener, Serializable {
+
+class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionListener, Serializable, MouseWheelListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,16 +29,12 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
             f.draw(g);
     }
 
-
     void addFigure(Figure fig) {
-        for (Figure f : figures) {
-            f.unselect();
-        }
+        figures.forEach(Figure::unselect);
         fig.select();
         figures.add(fig);
         repaint();
     }
-
 
     void moveAllFigures(float dx, float dy) {
         figures.stream().filter(Figure::isSelected).forEach(f -> f.move(dx, dy));
@@ -46,21 +47,14 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
     }
 
     public String toString() {
-        String str = "Rysunek{ ";
+        String str = "";
         for (Figure f : figures)
             str += f.toString() + "\n         ";
         str += "}";
         return str;
     }
 
-
-    /*
-     *  Impelentacja interfejsu KeyListener - obs�uga zdarze� generowanych
-     *  przez klawiatur� gdy focus jest ustawiony na ten obiekt.
-     */
-    public void keyPressed(KeyEvent evt)
-    //Virtual keys (arrow keys, function keys, etc) - handled with keyPressed() listener.
-    {
+    public void keyPressed(KeyEvent evt) {
         int dist;
         if (evt.isShiftDown()) dist = 10;
         else dist = 1;
@@ -90,12 +84,7 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
         }
     }
 
-    public void keyReleased(KeyEvent evt) {
-    }
-
-    public void keyTyped(KeyEvent evt)
-    //Characters (a, A, #, ...) - handled in the keyTyped() listener.
-    {
+    public void keyTyped(KeyEvent evt) {
         switch (evt.getKeyChar()) {
             case 'p':
                 addFigure(new Point());
@@ -124,14 +113,7 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
         }
     }
 
-
-    /*
-     * Implementacja interfejsu MouseListener - obs�uga zdarze� generowanych przez myszk�
-     * gdy kursor myszki jest na tym panelu
-     */
-    public void mouseClicked(MouseEvent e)
-    // Invoked when the mouse button has been clicked (pressed and released) on a component.
-    {
+    public void mouseClicked(MouseEvent e) {
         int px = e.getX();
         int py = e.getY();
         for (Figure f : figures) {
@@ -141,27 +123,15 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
         repaint();
     }
 
-    public void mouseEntered(MouseEvent e)
-    //Invoked when the mouse enters a component.
-    {
-    }
-
-    public void mouseExited(MouseEvent e)
-    //Invoked when the mouse exits a component.
-    {
-    }
-
-
-    public void mousePressed(MouseEvent e)
-    // Invoked when a mouse button has been pressed on a component.
-    {
+    public void mousePressed(MouseEvent e) {
         lastMousePosition.setLocation(e.getX(), e.getY());
     }
 
-    public void mouseReleased(MouseEvent e)
-    //Invoked when a mouse button has been released on a component.
-    {
-    }
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+    @Override public void mouseMoved(MouseEvent e) {}
+    @Override public void keyReleased(KeyEvent e) {}
 
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -173,26 +143,22 @@ public class Picture extends JPanel implements KeyListener, MouseListener, Mouse
         repaint();
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
-
     void savePictureToFile(String fileName) throws Exception {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
         out.writeObject(figures);
         out.close();
     }
 
-    /**
-     * Wczytuje dane z pliku.
-     * @param fileName nazwa pliku.
-     * @throws Exception Zwraca wyjątek gdy nie udało się wczytać.
-     */
     void loadPictureFromFile(String fileName) throws Exception {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-        figures = (Vector<Figure>)in.readObject();
+        figures = (Vector<Figure>) in.readObject();
         in.close();
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.getUnitsToScroll() < 0) figures.stream().filter(Figure::isSelected).forEach(f -> f.scale(1.1f));
+        else if (e.getUnitsToScroll() > 0) figures.stream().filter(Figure::isSelected).forEach(f -> f.scale(0.9f));
+        repaint();
     }
 }
