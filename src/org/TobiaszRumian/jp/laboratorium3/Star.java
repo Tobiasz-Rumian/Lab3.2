@@ -6,6 +6,7 @@ package org.TobiaszRumian.jp.laboratorium3;
  * Indeks: 226131
  * Grupa: śr 13:15 TN
  */
+
 import java.awt.*;
 
 
@@ -24,7 +25,7 @@ class Star extends Figure {
     Star(float dx, float dy, float s) {
         createStar();
         this.scale(s);
-        this.move(dx,dy);
+        this.move(dx, dy);
     }
 
     @Override

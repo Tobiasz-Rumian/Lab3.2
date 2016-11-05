@@ -6,6 +6,7 @@ package org.TobiaszRumian.jp.laboratorium3;
  * Indeks: 226131
  * Grupa: śr 13:15 TN
  */
+
 import java.awt.*;
 
 
@@ -22,7 +23,7 @@ class Hourglass extends Figure {
     Hourglass(float dx, float dy, float s) {
         createHourglass();
         this.scale(s);
-        this.move(dx,dy);
+        this.move(dx, dy);
     }
 
     private void createHourglass() {

@@ -6,6 +6,7 @@ package org.TobiaszRumian.jp.laboratorium3;
  * Indeks: 226131
  * Grupa: śr 13:15 TN
  */
+
 import java.awt.*;
 
 
@@ -19,7 +20,8 @@ class Point extends Figure {
     }
 
     Point(float x, float y) {
-        this.x = x; this.y = y;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -54,11 +56,13 @@ class Point extends Figure {
 
     @Override
     void move(float dx, float dy) {
-        x += dx; y += dy;
+        x += dx;
+        y += dy;
     }
 
     @Override
-    void scale(float s) {}
+    void scale(float s) {
+    }
 
     @Override
     void draw(Graphics g) {

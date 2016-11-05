@@ -15,6 +15,7 @@ package org.TobiaszRumian.jp.laboratorium3;
  *   Indeks: 226131
  *   Grupa: śr 13:15 TN
  */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,23 +30,23 @@ public class GraphicEditor extends JFrame implements ActionListener {
 
     private final String FILENAME = "PICTURE.BIN";
 
-    private final String DESCRIPTION =
-                            "OPIS PROGRAMU\n\n" +
-                            "Aktywna klawisze:\n" +
-                            "   strzalki ==> przesuwanie figur\n" +
-                            "   SHIFT + strzalki ==> szybkie przesuwanie figur\n" +
-                            "   +,-  ==> powiekszanie, pomniejszanie\n" +
-                            "   DEL  ==> kasowanie figur\n" +
-                            "   p  ==> dodanie nowego punktu\n" +
-                            "   c  ==> dodanie nowego kola\n" +
-                            "   t  ==> dodanie nowego trojkata\n" +
-                            "   g  ==> dodanie nowej gwiazdy\n" +
-                            "   k  ==> dodanie nowej klepsydry\n" +
-                            "   f  ==> dodanie nowego pięciokąta\n" +
-                            "\nOperacje myszka:\n" + "   klik ==> zaznaczanie figur\n" +
-                            "   ALT + klik ==> zmiana zaznaczenia figur\n" +
-                            "   przeciaganie ==> przesuwanie figur\n"+
-                            "   Kółko myszki ==> Zmiana rozmiaru figury";
+    private final String DESCRIPTION = "OPIS PROGRAMU\n\n" +
+            "Aktywna klawisze:\n" +
+            "   strzalki ==> przesuwanie figur\n" +
+            "   SHIFT + strzalki ==> szybkie przesuwanie figur\n" +
+            "   +,-  ==> powiekszanie, pomniejszanie\n" +
+            "   DEL  ==> kasowanie figur\n" +
+            "   p  ==> dodanie nowego punktu\n" +
+            "   c  ==> dodanie nowego kola\n" +
+            "   t  ==> dodanie nowego trojkata\n" +
+            "   g  ==> dodanie nowej gwiazdy\n" +
+            "   k  ==> dodanie nowej klepsydry\n" +
+            "   f  ==> dodanie nowego pięciokąta\n" +
+            "\nOperacje myszka:\n" +
+            "   klik ==> zaznaczanie figur\n" +
+            "   ALT + klik ==> zmiana zaznaczenia figur\n" +
+            "   przeciaganie ==> przesuwanie figur\n" +
+            "   Kółko myszki ==> Zmiana rozmiaru figury";
 
     private final Picture picture;
 
@@ -85,9 +86,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
         super("Edytor graficzny");
         setSize(800, 800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         for (JMenuItem item : items) item.addActionListener(this);
-        // dodanie opcji do menu "Figury"
         menu[0].add(menu1[0]);
         menu[0].add(menu1[1]);
         menu[0].add(menu1[2]);
@@ -110,7 +109,6 @@ public class GraphicEditor extends JFrame implements ActionListener {
         menu1[5].add(items[10]);
         menu1[5].add(items[11]);
         menu[0].add(items[12]);
-        // dodanie opcji do menu "Edytuj"
         menu[1].addSeparator();
         menu[1].add(items[13]);
         menu[1].add(items[14]);
@@ -121,7 +119,6 @@ public class GraphicEditor extends JFrame implements ActionListener {
         menu[2].add(items[18]);
         menu[2].add(items[19]);
         menu[2].add(items[20]);
-        // dodanie do okna paska menu
         JMenuBar menuBar = new JMenuBar();
         for (JMenu aMenu : menu) menuBar.add(aMenu);
         setJMenuBar(menuBar);
@@ -179,22 +176,19 @@ public class GraphicEditor extends JFrame implements ActionListener {
         else if (source == items[12]) {
             ShowAllFigures showAllFigures = new ShowAllFigures(this);
             showAllFigures.setVisible(true);
-        }
-        else if (source == items[13]) picture.moveAllFigures(0, -10);
+        } else if (source == items[13]) picture.moveAllFigures(0, -10);
         else if (source == items[14]) picture.moveAllFigures(0, 10);
         else if (source == items[15]) picture.scaleAllFigures(1.1f);
         else if (source == items[16]) picture.scaleAllFigures(0.9f);
         else if (source == items[17]) {
             About about;
-            try{
+            try {
                 about = new About(this);
                 about.setVisible(true);
-            }catch(Exception e) {
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-        }
-
-        else if (source == items[18]) JOptionPane.showMessageDialog(null, DESCRIPTION);
+        } else if (source == items[18]) JOptionPane.showMessageDialog(null, DESCRIPTION);
         else if (source == items[19]) {
             try {
                 picture.savePictureToFile(FILENAME);
@@ -203,8 +197,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
                 System.err.println(e.getMessage());
             }
             repaint();
-        }
-        else if (source == items[20]) {
+        } else if (source == items[20]) {
             try {
                 picture.loadPictureFromFile(FILENAME);
                 System.out.println("Plik zostal odczytany");
@@ -228,11 +221,11 @@ public class GraphicEditor extends JFrame implements ActionListener {
             x = dialog.getX1();
             y = dialog.getY1();
             s = dialog.getS1();
-            if (Objects.equals(name, "Point"))          figure = new Point(x, y);
-            else if (Objects.equals(name, "Circle"))    figure = new Circle(x, y, s);
-            else if (Objects.equals(name, "Star"))      figure = new Star(x, y, s);
+            if (Objects.equals(name, "Point")) figure = new Point(x, y);
+            else if (Objects.equals(name, "Circle")) figure = new Circle(x, y, s);
+            else if (Objects.equals(name, "Star")) figure = new Star(x, y, s);
             else if (Objects.equals(name, "Hourglass")) figure = new Hourglass(x, y, s);
-            else if (Objects.equals(name, "Pentagon"))  figure = new Pentagon(x, y, s);
+            else if (Objects.equals(name, "Pentagon")) figure = new Pentagon(x, y, s);
         } else if (Objects.equals(name, "Triangle")) {
             SetTriangleDialog dialog = new SetTriangleDialog(this);
             dialog.setVisible(true);
@@ -302,6 +295,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
 
     private class SetTriangleDialog extends JDialog {
         JTextField[] textFields = new JTextField[6];
+
         SetTriangleDialog(JFrame owner) {
             super(owner, "Tworzenie figury", true);
             add(new JLabel("Wpisz rozmiary figury"), BorderLayout.NORTH);
@@ -323,27 +317,30 @@ public class GraphicEditor extends JFrame implements ActionListener {
         }
 
         Point getPoint(int x) {
-            if (x==1)           return new Point(Float.parseFloat(textFields[0].getText()), Float.parseFloat(textFields[1].getText()));
-            else if (x == 2)    return new Point(Float.parseFloat(textFields[2].getText()), Float.parseFloat(textFields[3].getText()));
-            else if (x == 3)    return new Point(Float.parseFloat(textFields[4].getText()), Float.parseFloat(textFields[5].getText()));
+            if (x == 1)
+                return new Point(Float.parseFloat(textFields[0].getText()), Float.parseFloat(textFields[1].getText()));
+            else if (x == 2)
+                return new Point(Float.parseFloat(textFields[2].getText()), Float.parseFloat(textFields[3].getText()));
+            else if (x == 3)
+                return new Point(Float.parseFloat(textFields[4].getText()), Float.parseFloat(textFields[5].getText()));
             return null;
         }
 
     }
 
     private class About extends JDialog {
-        About(JFrame owner) throws MalformedURLException{
+        About(JFrame owner) throws MalformedURLException {
             super(owner, "O Autorze", true);
-            URL url=null;
-        try{
-            url = new URL("https://media.giphy.com/media/l0HlIKdi4DIEDk92g/giphy.gif");
-        }catch(Exception e){
-            System.err.println(e.getMessage());
-        }
+            URL url = null;
+            try {
+                url = new URL("https://media.giphy.com/media/l0HlIKdi4DIEDk92g/giphy.gif");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
             Icon icon = new ImageIcon(url);
             JLabel label = new JLabel(icon);
             add(new JLabel("Autor:\t Tobiasz Rumian\t Indeks: 226131"), BorderLayout.NORTH);
-            add(label,BorderLayout.CENTER);
+            add(label, BorderLayout.CENTER);
             JButton ok = new JButton("ok");
             ok.addActionListener(e -> setVisible(false));
             add(ok, BorderLayout.SOUTH);
@@ -355,7 +352,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
         ShowAllFigures(JFrame owner) {
             super(owner, "Wszystkie figury", true);
             add(new JLabel("Rysunek{"), BorderLayout.NORTH);
-            JTextArea textArea = new JTextArea(8,40);
+            JTextArea textArea = new JTextArea(8, 40);
             textArea.append(picture.toString());
             JScrollPane scrollPane = new JScrollPane(textArea);
             textArea.setEditable(false);
@@ -366,6 +363,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
             setSize(250, 500);
         }
     }
+
     public static void main(String[] args) {
         new GraphicEditor();
     }

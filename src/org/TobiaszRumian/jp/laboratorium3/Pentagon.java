@@ -33,10 +33,11 @@ class Pentagon extends Figure {
         triangles[3] = new Triangle(points[3], points[5], points[4]);
         triangles[4] = new Triangle(points[4], points[5], points[0]);
     }
-    Pentagon(float dx,float dy,float s){
+
+    Pentagon(float dx, float dy, float s) {
         createPentagon();
         this.scale(s);
-        this.move(dx,dy);
+        this.move(dx, dy);
     }
 
     private void createPentagon() {

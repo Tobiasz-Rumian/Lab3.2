@@ -1,52 +1,45 @@
 package org.TobiaszRumian.jp.laboratorium3;
-
-import sun.plugin2.util.ColorUtil;
-
+/*
+ * @version 1.0
+ * Autor: Pawel Rogalinski
+ * Data: 1 pazdziernika 2016 r.
+ */
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
 
-/**
- * Created by Tobiasz Rumian on 28.10.2016.
- */
-abstract class Figure implements Serializable{
+abstract class Figure implements Serializable {
 
     static Random random = new Random();
 
     private boolean selected = false;
-    public Color color = new Color(random.nextInt());
+    Color color = new Color(random.nextInt());
 
-    public boolean isSelected() {
+    boolean isSelected() {
         return selected;
     }
 
-    public void select() {
+    void select() {
         selected = true;
     }
 
-    public void select(boolean z) {
+    void select(boolean z) {
         selected = z;
     }
 
-    public void unselect() {
+    void unselect() {
         selected = false;
     }
 
-    protected void setColor(Graphics g) {
+    void setColor(Graphics g) {
         if (selected) g.setColor(Color.RED);
         else g.setColor(Color.BLACK);
     }
 
     public abstract boolean isInside(float px, float py);
 
-    public boolean isInside(int px, int py) {
+    boolean isInside(int px, int py) {
         return isInside((float) px, (float) py);
-    }
-
-    protected String properties() {
-        String s = String.format("  Pole: %.0f  Obwod: %.0f", computeArea(), computePerimeter());
-        if (isSelected()) s = s + "   [SELECTED]";
-        return s;
     }
 
     abstract String getName();

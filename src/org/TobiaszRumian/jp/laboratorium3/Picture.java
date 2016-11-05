@@ -127,11 +127,25 @@ class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionL
         lastMousePosition.setLocation(e.getX(), e.getY());
     }
 
-    @Override public void mouseReleased(MouseEvent e) {}
-    @Override public void mouseEntered(MouseEvent e) {}
-    @Override public void mouseExited(MouseEvent e) {}
-    @Override public void mouseMoved(MouseEvent e) {}
-    @Override public void keyReleased(KeyEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
     @Override
     public void mouseDragged(MouseEvent e) {

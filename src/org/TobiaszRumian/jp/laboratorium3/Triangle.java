@@ -6,6 +6,7 @@ package org.TobiaszRumian.jp.laboratorium3;
  * Indeks: 226131
  * Grupa: śr 13:15 TN
  */
+
 import java.awt.*;
 
 
